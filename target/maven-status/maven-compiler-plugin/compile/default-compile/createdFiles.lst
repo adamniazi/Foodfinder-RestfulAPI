@@ -1,0 +1,10 @@
+testapp\restaurant\RestaurantController.class
+testapp\user\UserService.class
+testapp\user\UserController.class
+testapp\restaurant\RestaurantService.class
+testapp\SpringMongoConfig.class
+testapp\TestApp.class
+testapp\user\UserRepository.class
+testapp\user\Restaurant.class
+testapp\user\User.class
+testapp\restaurant\RestaurantRepository.class

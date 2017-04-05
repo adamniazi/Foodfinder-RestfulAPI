@@ -43,6 +43,7 @@ public class UserService {
         User result = userRepository.findByEmail(email);
 
         if(result != null){
+            userRepository.deleteByEmail(email);
             return userRepository.save(u);
         } else {
             User notFound = new User();

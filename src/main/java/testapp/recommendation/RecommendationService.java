@@ -106,18 +106,51 @@ public class RecommendationService {
             }
         }
         //5.2.3 make recommendation using the min scored user
+        List<Rating> recUser;
         if(scores.size() == 1){
             // recommend a res
             String k = scores.firstKey();
-            List<Rating> recUser = ratingRepo.findByEmail(k);
+            recUser = ratingRepo.findByEmail(k);
+            for(int i = 0; i < PPP.size(); i++){
+                for(int j = 0; j < recUser.size(); j++){
+                    if(PPP.get(i).getRestaurant().equals(recUser.get(j).getRestaurant())){
+                        recUser.remove(j);
+                    }
+                }
+            }
         } else{
             //try different users
+            String k = scores.firstKey();
+            recUser = ratingRepo.findByEmail(k);
+            for(int i = 0; i < PPP.size(); i++){
+                for(int j = 0; j < recUser.size(); j++){
+                    if(PPP.get(i).getRestaurant().equals(recUser.get(j).getRestaurant())){
+                        recUser.remove(j);
+                    }
+                }
+            }
+        }
+        int maxRating = 0;
+        int pos = 0;
+        String rec;
+        for(int i = 0; i < recUser.size(); i++){
+            if(Integer.parseInt(recUser.get(i).getRating()) > maxRating){
+                maxRating = Integer.parseInt(recUser.get(i).getRating());
+                pos = i;
+            }
         }
 
+        if(recUser.size() > 0){
+            rec = recUser.get(pos).getRestaurant();
+        } else{
+            rec = "No restaurant found";
+        }
 
         //6. recommend restaurant based on user with lowest absolute score's rating of a restaurant that was rated highest
         //   that requesting user has not visited.
 
-        return null;
+        return resRepo.findByName(rec);
     }
+
+    //public TreeSet<String> getUsersVisitingSameRes()
 }

@@ -22,6 +22,7 @@ public class RecommendationController {
 
     @RequestMapping(value = "/{email:.+}", method = RequestMethod.GET)
     public ResponseEntity<Restaurant> recommend(@PathVariable String email){
+        System.out.println("In the recommend function");
         Restaurant recommendation = recService.getRecommendation(email);
         return new ResponseEntity<Restaurant>(recommendation, HttpStatus.OK);
     }

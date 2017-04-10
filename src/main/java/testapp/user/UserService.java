@@ -18,9 +18,11 @@ public class UserService {
     public User addUser(User u){
         User addedUser;
         if(userRepository.findByEmail(u.getEmail()) != null){
+            System.out.println("found a user");
             addedUser = new User();
             addedUser.addError("User already exists!");
         } else {
+            System.out.println("User added");
             addedUser = userRepository.save(u);
         }
         return addedUser;

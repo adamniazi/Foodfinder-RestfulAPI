@@ -19,10 +19,13 @@ public class UserController {
     /*method to add user to database.*/
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestBody User u){
+        System.out.println("received a user");
         User addedUser = userService.addUser(u);
         if(!addedUser.getErrors().isEmpty()){
+            System.out.println("return conflict");
             return new ResponseEntity<User>(addedUser, HttpStatus.CONFLICT);
         } else {
+            System.out.println("return OKAY!");
             return new ResponseEntity<User>(addedUser, HttpStatus.OK);
         }
     }

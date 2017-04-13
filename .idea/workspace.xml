@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed0c193a-00d3-4f4b-8ec7-fb03ad2a1041" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/testapp/restaurant/RestaurantService.class" afterPath="$PROJECT_DIR$/target/classes/testapp/restaurant/RestaurantService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/testapp/recommendation/Recommendation.java" afterPath="$PROJECT_DIR$/src/main/java/testapp/recommendation/Recommendation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java" afterPath="$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/testapp/restaurant/RestaurantService.java" afterPath="$PROJECT_DIR$/src/main/java/testapp/restaurant/RestaurantService.java" />
-    </list>
+    <list default="true" id="ed0c193a-00d3-4f4b-8ec7-fb03ad2a1041" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -216,7 +210,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -409,8 +402,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -856,11 +850,12 @@
       <workItem from="1491928516487" duration="2175000" />
       <workItem from="1492017582454" duration="8633000" />
       <workItem from="1492053936392" duration="551000" />
+      <workItem from="1492055047758" duration="137000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135721000" />
+    <option name="totallyTimeSpent" value="135858000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />

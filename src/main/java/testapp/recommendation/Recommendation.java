@@ -13,4 +13,7 @@ import testapp.DomainEntity;
 @Document
 public class Recommendation extends DomainEntity {
 
+    private String name;
+    private int numUsers;
+    private int rating;
 }

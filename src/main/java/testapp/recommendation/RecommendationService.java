@@ -154,7 +154,7 @@ public class RecommendationService {
             scores.put(str, score);
             users1.add(str);
         }
-        //5.2 use user with the lowest absolute value, if more than 1, use the first user
+        //5.2 find users with the lowest absolute value
         //5.2.1 find the min score
         int minScore = Integer.MAX_VALUE;
         Iterator<String> uItr4 = users1.iterator();
@@ -175,49 +175,52 @@ public class RecommendationService {
         }
         System.out.println("Only kept " + users1.size() + "users");
 
-        //5.2.3 make recommendation using the min scored user
-        List<Rating> recUser;
-        if(scores.size() == 1){
-            // recommend a res
-            String k = scores.firstKey();
-            recUser = ratingRepo.findByEmail(k);
-            System.out.println("Using " + k +  "'s ratings to make a recommendation using " + recUser.size() + " ratings");
-            for(int i = 0; i < PPP.size(); i++){
-                for(int j = 0; j < recUser.size(); j++){
-                    if(PPP.get(i).getRestaurant().equals(recUser.get(j).getRestaurant())){
-                        recUser.remove(j);
-                    }
-                }
-            }
-        } else{
-            //try different users
-            String k = scores.firstKey();
-            recUser = ratingRepo.findByEmail(k);
-            System.out.println("Using " + k+  "'s ratings to make a recommendation using " + recUser.size() + " ratings");
-            for(int i = 0; i < PPP.size(); i++){
-                for(int j = 0; j < recUser.size(); j++){
-                    if(PPP.get(i).getRestaurant().equals(recUser.get(j).getRestaurant())){
-                        recUser.remove(j);
-                    }
-                }
+        //5.2.3 make recommendation using the max average score of a restaurant from the min scored users
+        TreeSet<String> minUsers = new TreeSet<>();
+        Iterator<String> uItr6 = users1.iterator();
+        while(uItr6.hasNext()){
+            String minUser = uItr6.next();
+            if(scores.get(minUser) != null){
+                //add all left over min score users
+                minUsers.add(minUser);
             }
         }
-        int maxRating = 0;
-        int pos = 0;
-        String rec;
-        for(int i = 0; i < recUser.size(); i++){
-            if(Integer.parseInt(recUser.get(i).getRating()) > maxRating){
-                maxRating = Integer.parseInt(recUser.get(i).getRating());
-                pos = i;
-            }
+        if(minUsers.size() == 0){
+            Restaurant returnRes = new Restaurant();
+            returnRes.setName("Cannot recommend a restaurant");
+            returnRes.setAddress("No users match your ratings");
+            return returnRes;
         }
-        System.out.println("max rating is " + max + " at position " + pos);
 
-        if(recUser.size() > 0){
-            rec = recUser.get(pos).getRestaurant();
-        } else{
-            rec = "No restaurant found";
+        Iterator<String> uItr7 = minUsers.iterator();
+        TreeSet<Restaurant> recReses = new TreeSet<>();
+        TreeMap<String, Recommendation> recScores = new TreeMap<>();
+
+        while(uItr7.hasNext()){
+            String curr = uItr7.next();
+            List<Rating> currRatings = ratingRepo.findByEmail(curr);
+            for(int i = 0; i < currRatings.size(); i++){
+                String tempName = currRatings.get(i).getRestaurant();
+                if(recReses.add(resRepo.findByName(tempName))){
+                    Recommendation rec = new Recommendation();
+                    rec.setName(tempName);
+                    rec.setRating(Integer.parseInt(currRatings.get(i).getRating()));
+                    rec.setNumUsers(1);
+                    recScores.put(tempName, rec);
+                } else {
+                    Recommendation tempRec = recScores.remove(tempName);
+                    int tempRating = tempRec.getRating();
+                    int tempNumUsers = tempRec.getNumUsers();
+                    String tempRes = tempRec.getName();
+                    Recommendation newRec = new Recommendation();
+                    newRec.setName(tempRes);
+                    newRec.setNumUsers(temp);
+
+                }
+            }
         }
+
+
 
         //6. recommend restaurant based on user with lowest absolute score's rating of a restaurant that was rated highest
         //   that requesting user has not visited.

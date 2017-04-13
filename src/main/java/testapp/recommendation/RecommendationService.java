@@ -2,16 +2,13 @@ package testapp.recommendation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.tree.Tree;
 import testapp.rating.Rating;
 import testapp.rating.RatingRepository;
 import testapp.restaurant.RestaurantRepository;
 import testapp.user.Restaurant;
-import testapp.user.User;
-import testapp.user.UserRepository;
 
 import java.util.*;
-
-import java.util.stream.Collectors;
 
 @Service
 
@@ -19,13 +16,11 @@ public class RecommendationService {
 
     private RatingRepository ratingRepo;
     private RestaurantRepository resRepo;
-    private UserRepository userRepo;
 
     @Autowired
-    public RecommendationService(RatingRepository rRepo, RestaurantRepository resR, UserRepository uR){
+    public RecommendationService(RatingRepository rRepo, RestaurantRepository resR){
         ratingRepo = rRepo;
         resRepo = resR;
-        userRepo = uR;
     }
 
     public Restaurant getRecommendation (String email){
@@ -185,39 +180,109 @@ public class RecommendationService {
                 minUsers.add(minUser);
             }
         }
-        if(minUsers.size() == 0){
+        System.out.println("There are " + minUsers.size() + " users in the minUsers TreeSet");
+
+        //if no users, return that no users match
+        if(minUsers.isEmpty()){
             Restaurant returnRes = new Restaurant();
             returnRes.setName("Cannot recommend a restaurant");
             returnRes.setAddress("No users match your ratings");
             return returnRes;
         }
 
+        //from the minUsers set, find average rating for each restaurant
         Iterator<String> uItr7 = minUsers.iterator();
-        TreeSet<Restaurant> recReses = new TreeSet<>();
+        TreeSet<String> recReses = new TreeSet<>(); //recommendable restaurants
         TreeMap<String, Recommendation> recScores = new TreeMap<>();
 
         while(uItr7.hasNext()){
             String curr = uItr7.next();
-            List<Rating> currRatings = ratingRepo.findByEmail(curr);
+            List<Rating> currRatings = ratingRepo.findByEmail(curr); //get all of the restaurants by the current user being checked
             for(int i = 0; i < currRatings.size(); i++){
                 String tempName = currRatings.get(i).getRestaurant();
-                if(recReses.add(resRepo.findByName(tempName))){
+                if(recReses.add(tempName)){
+                    //added in the recommendable restaurants set
+                    System.out.println(tempName + " added to the recommendable restaurant set");
                     Recommendation rec = new Recommendation();
                     rec.setName(tempName);
                     rec.setRating(Integer.parseInt(currRatings.get(i).getRating()));
                     rec.setNumUsers(1);
                     recScores.put(tempName, rec);
+                    System.out.println(tempName + " updated with numUsers: "+ rec.getNumUsers() + " and rating: " + rec.getRating());
                 } else {
+                    //already in the recommendable restaurants set
                     Recommendation tempRec = recScores.remove(tempName);
                     int tempRating = tempRec.getRating();
                     int tempNumUsers = tempRec.getNumUsers();
                     String tempRes = tempRec.getName();
                     Recommendation newRec = new Recommendation();
                     newRec.setName(tempRes);
-                    newRec.setNumUsers(temp);
-
+                    newRec.setNumUsers(tempNumUsers + 1);
+                    newRec.setRating(tempRating + Integer.parseInt(currRatings.get(i).getRating()));
+                    recScores.put(tempName, tempRec);
+                    System.out.println(tempName + " updated with numUsers: "+ tempRec.getNumUsers() + " and rating: " + tempRec.getRating());
                 }
             }
+        }
+        System.out.println("recScores: " + recScores.size() + " recReses: " + recReses.size());
+        System.out.println("----------------------------------------------------------------");
+
+        System.out.println("from the recommendable set, remove all restaurants requesting user has already visited");
+        List<Rating> reqUsersRatings = ratingRepo.findByEmail(email);
+        ArrayList<String> reqUsersRestaurants = new ArrayList<>();
+        for(int i = 0; i < reqUsersRatings.size(); i ++){
+            reqUsersRestaurants.add(reqUsersRatings.get(i).getRestaurant());
+        }
+
+        for(int i = 0; i < reqUsersRestaurants.size(); i++){
+            if(recReses.contains(reqUsersRestaurants.get(i))){
+                recReses.remove(reqUsersRestaurants.get(i));
+                recScores.remove(reqUsersRestaurants.get(i));
+            }
+        }
+        System.out.println("recScores: " + recScores.size() + " recReses: " + recReses.size());
+        System.out.println("-------------------------------------------------------------------");
+        System.out.println("Building a treemap with the remaining restaurants and their average scores");
+        TreeMap<String, Integer> averageResScores = new TreeMap<>();
+        TreeSet<String> above2 = new TreeSet<>();
+        Iterator<String> uItr8 = recReses.iterator();
+        while(uItr8.hasNext()){
+            String resName = uItr8.next();
+            int resNumUsers = recScores.get(resName).getNumUsers();
+            int totalRating = recScores.get(resName).getRating();
+            int averageScore = totalRating / resNumUsers;
+            System.out.println(resName + " has the numUsers: " + resNumUsers + " rating: " + totalRating + "and average " + averageScore);
+            if(averageScore > 2){
+                averageResScores.put(resName, averageScore);
+                above2.add(resName);
+            }
+        }
+
+        if(above2.isEmpty()){
+            Restaurant returnRes = new Restaurant();
+            returnRes.setName("Cannot recommend a restaurant");
+            returnRes.setAddress("all recommendable restaurants are rated under 3/5");
+            return returnRes;
+        }
+
+        Restaurant restaurantName = null;
+        int maxResScore = Integer.MIN_VALUE;
+        Iterator<String> uItr9 = above2.iterator();
+        while(uItr9.hasNext()){
+            String resName = uItr9.next();
+            if(averageResScores.get(resName) > maxResScore){
+                restaurantName = resRepo.findByName(resName);
+                maxResScore = averageResScores.get(resName);
+            }
+        }
+
+        if(restaurantName == null){
+            Restaurant returnRes = new Restaurant();
+            returnRes.setName("Cannot recommend a restaurant");
+            returnRes.setAddress("all recommendable restaurants are rated under 3/5");
+            return returnRes;
+        } else{
+            return restaurantName;
         }
 
 
@@ -225,7 +290,7 @@ public class RecommendationService {
         //6. recommend restaurant based on user with lowest absolute score's rating of a restaurant that was rated highest
         //   that requesting user has not visited.
 
-        return resRepo.findByName(rec);
+
     }
 
     //public TreeSet<String> getUsersVisitingSameRes()

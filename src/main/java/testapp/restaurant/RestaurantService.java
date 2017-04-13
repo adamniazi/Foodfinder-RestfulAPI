@@ -43,11 +43,11 @@ public class RestaurantService {
     public List<Restaurant> getRestaurantsWithKeyword(String keyword){
         List<Restaurant> allRestaurants = resRepository.findAll();
         List<Restaurant> restaurantWithKeyword = new ArrayList<>();
-        //System.out.println("searching for keyword:" + keyword);
+        System.out.println("searching for keyword:" + keyword);
         for(Restaurant restaurant : allRestaurants){
             if(restaurant.getName().toLowerCase().contains(keyword.toLowerCase())){
                 System.out.println("found");
-                //restaurantWithKeyword.add(restaurant);
+                restaurantWithKeyword.add(restaurant);
             }
         }
         return restaurantWithKeyword;

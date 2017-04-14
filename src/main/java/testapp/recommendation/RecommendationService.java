@@ -113,7 +113,7 @@ public class RecommendationService {
             if(score > max){
                 max = numSame.get(str);
                 //usersMax.add(str);
-                System.out.println("add user to userMax with, new max: " + max);
+                System.out.println("new max: " + max);
             }
         }
         //4.2 remove all users below max value
@@ -122,16 +122,20 @@ public class RecommendationService {
             String str = uItr2.next();
             if(numSame.get(str) < max){
                 numSame.remove(str);
+            } else {
+                System.out.println("Added user: " + str + " to usersMax");
+                usersMax.add(str);
             }
         }
-        System.out.println("found " + users.size() + " users who visited the max: " + max);
+        System.out.println("found " + usersMax.size() + " users who visited the max: " + max);
         //5. build another key-value pair where the key is the other users, value is the score of the other users
         //5.1 score is based on taking rating of the other users and comparing it to the requesting user's rating for
         //    a given restaurant, taking absolute value.
         TreeMap<String, Integer> scores = new TreeMap<>();
         TreeSet<String> users1 = new TreeSet<>();
-        Iterator<String> uItr3 = users.iterator();
+        Iterator<String> uItr3 = usersMax.iterator();
         while(uItr3.hasNext()){
+            System.out.println("----------------------------------------------------");
             String str = uItr3.next();//current user being compared to requesting user
             System.out.println("current user being compared: " + str);
             int score = 0;
@@ -141,13 +145,19 @@ public class RecommendationService {
                   Rating temp = PPP.get(i);
                   Rating temp2 = ratingRepo.findByEmailAndRestaurant(str, temp.getRestaurant());
                   if ((temp != null) && (temp2 != null)){
-                      score = score + Math.abs((Integer.parseInt(temp.getRating())) - Integer.parseInt(temp2.getRating()));
+                      int reqUScore = Integer.parseInt(temp.getRating());
+                      int checkUScore = Integer.parseInt(temp2.getRating());
+                      int abScore = Math.abs(reqUScore - checkUScore);
+                      System.out.println(email+"'s score is " + reqUScore + " " + str + "'s score is " + checkUScore);
+                      System.out.println("abs score is " + abScore);
+                      score = score + abScore;
                   }
                 }
                 System.out.println("User " + str +"'s score is " + score);
             }
             scores.put(str, score);
             users1.add(str);
+            System.out.println("----------------------------------------------------");
         }
         //5.2 find users with the lowest absolute value
         //5.2.1 find the min score
@@ -197,6 +207,9 @@ public class RecommendationService {
 
         while(uItr7.hasNext()){
             String curr = uItr7.next();
+            System.out.println("----------------------------------------------------");
+            System.out.println("Current user being checked from minUsers is: " + curr);
+
             List<Rating> currRatings = ratingRepo.findByEmail(curr); //get all of the restaurants by the current user being checked
             for(int i = 0; i < currRatings.size(); i++){
                 String tempName = currRatings.get(i).getRestaurant();
@@ -219,10 +232,11 @@ public class RecommendationService {
                     newRec.setName(tempRes);
                     newRec.setNumUsers(tempNumUsers + 1);
                     newRec.setRating(tempRating + Integer.parseInt(currRatings.get(i).getRating()));
-                    recScores.put(tempName, tempRec);
+                    recScores.put(tempName, newRec);
                     System.out.println(tempName + " updated with numUsers: "+ tempRec.getNumUsers() + " and rating: " + tempRec.getRating());
                 }
             }
+            System.out.println("----------------------------------------------------");
         }
         System.out.println("recScores: " + recScores.size() + " recReses: " + recReses.size());
         System.out.println("----------------------------------------------------------------");
@@ -251,7 +265,7 @@ public class RecommendationService {
             int resNumUsers = recScores.get(resName).getNumUsers();
             int totalRating = recScores.get(resName).getRating();
             int averageScore = totalRating / resNumUsers;
-            System.out.println(resName + " has the numUsers: " + resNumUsers + " rating: " + totalRating + "and average " + averageScore);
+            System.out.println(resName + " has the numUsers: " + resNumUsers + " rating: " + totalRating + " and average " + averageScore);
             if(averageScore > 2){
                 averageResScores.put(resName, averageScore);
                 above2.add(resName);
@@ -261,7 +275,7 @@ public class RecommendationService {
         if(above2.isEmpty()){
             Restaurant returnRes = new Restaurant();
             returnRes.setName("Cannot recommend a restaurant");
-            returnRes.setAddress("all recommendable restaurants are rated under 3/5");
+            returnRes.setAddress("all recommendable restaurants are rated under 3/5 for you");
             return returnRes;
         }
 
@@ -275,6 +289,7 @@ public class RecommendationService {
                 maxResScore = averageResScores.get(resName);
             }
         }
+
 
         if(restaurantName == null){
             Restaurant returnRes = new Restaurant();

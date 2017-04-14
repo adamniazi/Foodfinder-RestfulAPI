@@ -41,6 +41,7 @@ public class RatingController {
     //method to get specific rating
     @RequestMapping(value = "/{email:.+}/{restaurant}", method = RequestMethod.GET)
     public ResponseEntity<Rating> getRating(@PathVariable String email, @PathVariable String restaurant){
+        //System.out.println("restaurant is: " + restaurant);
         Rating rating = ratingService.findRating(email, restaurant);
         ResponseEntity<Rating> ratingResponse;
         if(rating != null){

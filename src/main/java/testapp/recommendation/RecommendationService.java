@@ -7,6 +7,7 @@ import testapp.rating.Rating;
 import testapp.rating.RatingRepository;
 import testapp.restaurant.RestaurantRepository;
 import testapp.user.Restaurant;
+import testapp.user.UserRepository;
 
 import java.util.*;
 
@@ -16,11 +17,13 @@ public class RecommendationService {
 
     private RatingRepository ratingRepo;
     private RestaurantRepository resRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    public RecommendationService(RatingRepository rRepo, RestaurantRepository resR){
+    public RecommendationService(RatingRepository rRepo, RestaurantRepository resR, UserRepository uR){
         ratingRepo = rRepo;
         resRepo = resR;
+        userRepo = uR;
     }
 
     public Restaurant getRecommendation (String email){
@@ -28,6 +31,12 @@ public class RecommendationService {
         System.out.println("User requesting a recommendation is: " + email);
         List<Rating> PPP = ratingRepo.findByEmail(email);
         System.out.println("Found " + PPP.size() + " ratings for the user");
+        if(userRepo.findByEmail(email) == null){
+            Restaurant tempRes = new Restaurant();
+            tempRes.setName("User does not exist");
+            tempRes.setAddress("Please register the user");
+            return tempRes;
+        }
         if(PPP.isEmpty()){
             Restaurant tempRes = new Restaurant();
             tempRes.setName("You have not rating any restaurants yet");

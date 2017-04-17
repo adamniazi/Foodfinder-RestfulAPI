@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ed0c193a-00d3-4f4b-8ec7-fb03ad2a1041" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/testapp/rating/RatingController.java" afterPath="$PROJECT_DIR$/src/main/java/testapp/rating/RatingController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java" afterPath="$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -24,9 +23,12 @@
       <file leaf-file-name="RatingController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/testapp/rating/RatingController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="544">
               <caret line="43" column="10" lean-forward="false" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#457#458#0" expanded="false" />
+                <element signature="e#491#492#0" expanded="false" />
                 <element signature="method#getRatings#0;class#RatingController#0" expanded="false" />
                 <element signature="method#updateRatings#0;class#RatingController#0" expanded="false" />
               </folding>
@@ -63,10 +65,15 @@
       <file leaf-file-name="RestaurantController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/testapp/restaurant/RestaurantController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="153">
               <caret line="15" column="41" lean-forward="false" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#493#494#0" expanded="false" />
+                <element signature="e#524#525#0" expanded="false" />
                 <element signature="method#addRestaurant#0;class#RestaurantController#0" expanded="false" />
+                <element signature="e#1443#1444#0" expanded="false" />
+                <element signature="e#1496#1497#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -105,8 +112,8 @@
       <file leaf-file-name="RecommendationService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="233" column="66" lean-forward="true" selection-start-line="233" selection-start-column="66" selection-end-line="233" selection-end-column="66" />
+            <state relative-caret-position="170">
+              <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -238,8 +245,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -432,6 +437,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -881,11 +888,12 @@
       <workItem from="1492104613734" duration="5184000" />
       <workItem from="1492110809768" duration="432000" />
       <workItem from="1492194170446" duration="6565000" />
+      <workItem from="1492362625356" duration="2649000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="148039000" />
+    <option name="totallyTimeSpent" value="150688000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -963,7 +971,12 @@
         <state relative-caret-position="289">
           <caret line="24" column="45" lean-forward="false" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#493#494#0" expanded="false" />
+            <element signature="e#524#525#0" expanded="false" />
             <element signature="method#addRestaurant#0;class#RestaurantController#0" expanded="false" />
+            <element signature="e#1443#1444#0" expanded="false" />
+            <element signature="e#1496#1497#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1037,7 +1050,12 @@
         <state relative-caret-position="289">
           <caret line="24" column="45" lean-forward="false" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#493#494#0" expanded="false" />
+            <element signature="e#524#525#0" expanded="false" />
             <element signature="method#addRestaurant#0;class#RestaurantController#0" expanded="false" />
+            <element signature="e#1443#1444#0" expanded="false" />
+            <element signature="e#1496#1497#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1300,19 +1318,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/testapp/restaurant/RestaurantController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="153">
           <caret line="15" column="41" lean-forward="false" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#493#494#0" expanded="false" />
+            <element signature="e#524#525#0" expanded="false" />
             <element signature="method#addRestaurant#0;class#RestaurantController#0" expanded="false" />
+            <element signature="e#1443#1444#0" expanded="false" />
+            <element signature="e#1496#1497#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/testapp/rating/RatingController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="544">
           <caret line="43" column="10" lean-forward="false" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#457#458#0" expanded="false" />
+            <element signature="e#491#492#0" expanded="false" />
             <element signature="method#getRatings#0;class#RatingController#0" expanded="false" />
             <element signature="method#updateRatings#0;class#RatingController#0" expanded="false" />
           </folding>
@@ -1321,8 +1347,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/testapp/recommendation/RecommendationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="233" column="66" lean-forward="true" selection-start-line="233" selection-start-column="66" selection-end-line="233" selection-end-column="66" />
+        <state relative-caret-position="170">
+          <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
